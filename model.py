@@ -1,6 +1,14 @@
 import random
 
-#konstante?
+MINA = "*"
+ZASTAVICA = "#"
+ODKRITO_POLJE = "-"
+
+ZMAGA = "W"
+PORAZ = "L"
+
+ZAČETEK = "S"
+
 
 class Celica(x):
     def __init__(self, mina, vrstica, stolpec):
@@ -17,7 +25,7 @@ class Celica(x):
     def postavi_zastavico(self):
         self.z_zastavico = not self.z_zastavico
 
-    def postavi_mino(self):
+    def je_mina(self):
         self.mina = True
 
 
@@ -54,13 +62,37 @@ class Polje():
                     return False
         return True
         
-
+    #odkriješ polje z mino
     def poraz(self):
-        #odkriješ polje z mino
-        #if self.odkrij_celico() and self.postavi_mino():
+        #if self.odkrij_celico() and self.je_mina():
          #   return True
         pass
+
 
     #ce celica nima min v okolici, odpre tudi vse sosednje celice
     def odpri_polja_v_okolici(self):
         pass
+    
+
+    #spremeni stanje igre glede na uporabnikovo ugibanje
+    def ugibaj(self, vrstica, stolpec):
+        celica = self[vrstica][stolpec]
+        #stanje po ugibu
+        if celica.je_mina():
+            return PORAZ
+        
+        elif self.zmaga():
+            return ZMAGA
+        
+        else:
+            return ODKRITO_POLJE
+
+    #ta funkcija se ni v redu
+    def pokazi_vse_mine(self):
+        for vrstica in polja:
+            for celica in vrstica:
+                if celica.je_mina:
+                    if not celica.odkrij_celico():
+                        celica.odkrita == True
+                    else:
+                        return celica.odkrita == False
