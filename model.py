@@ -10,7 +10,7 @@ PORAZ = "L"
 ZAČETEK = "S"
 
 
-class Celica(x):
+class Celica:
     def __init__(self, mina, vrstica, stolpec):
         self.mina = mina
         self.odkrita = False
@@ -29,7 +29,7 @@ class Celica(x):
         self.mina = True
 
 
-class Polje():
+class Polje(tuple):
     def __init__(self, st_vrstic, st_stolpcev, st_min, polja):
         self.st_vrstic = st_vrstic
         self.st_stolpcev = st_stolpcev

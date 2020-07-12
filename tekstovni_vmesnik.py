@@ -11,8 +11,19 @@ def izpis_zmage(igra):
 def izpis_igre(igra):
     pass
 
-def postavitev(igra):
-    pass
+def postavitev(st_vrstic, st_stolpcev, mine):
+    polje = Polje(tuple([([Celica(False) for i in range(st_vrstic - 1)])
+            for j in range(st_stolpcev)]))
+    nezasedena_polja = list(range((st_vrstic - 1) * (st_stolpcev - 1)))
+    #tuki mogoce bosl st min
+    for n in range(mine):
+        novo_polje = random.choice(nezasedena_polja)
+        nezasedena_polja.remove(novo_polje)
+        (vrstica, stolpec) = (novo_polje % 9, novo_polje // 9)
+        polje.je_mina(vrstica, stolpec)
+    return polje
+
+    
 
 def zahtevaj_vnos(igra):
     navodila = """Najprej vnesi stolpec nato vrstico. Če želiš postaviti zastavico,
@@ -27,7 +38,7 @@ def zahtevaj_vnos(igra):
 
     while not veljaven_vnos(vnos, igra):
         vnos = input("Neveljaven vnos. Vnesi koordinate (za navodila pritisni N): ")
-        if vnos = "N":
+        if vnos == "N":
             vnos = input(navodila)
     
     x0 = int(vnos[0])
@@ -37,8 +48,7 @@ def zahtevaj_vnos(igra):
 
 
 def veljaven_vnos(moj_vnos, igra):
-    if len(moj_vnos) not in (2, 3) or not moj_vnos[:1].isdigit() or int(moj_vnos[0]) not in range(st_stolpcev)
-        or int(moj_vnos[1]) not in range(st_vrstic) or moj_vnos == "N":
+    if len(moj_vnos) not in (2, 3) or not moj_vnos[:1].isdigit() or int(moj_vnos[0]) not in range(st_stolpcev) or int(moj_vnos[1]) not in range(st_vrstic) or moj_vnos == "N":
         return False
     
     if len(moj_vnos) == 3 and moj_vnos[2] != "f":
@@ -51,6 +61,10 @@ def veljaven_vnos(moj_vnos, igra):
 
 def pozeni_vmesnik():
     igra = model.nova_igra()
+    st_vrstic = 10
+    st_stolpcev = 10
+    mine = 9
+    print(postavitev(st_vrstic, st_stolpcev, mine))
     while True:
         #izpisimo stanje
         print(izpis_igre(igra))
