@@ -11,12 +11,14 @@ def izpis_zmage(igra):
 def izpis_igre(igra):
     pass
 
+def postavitev(igra):
+    pass
 
 def zahtevaj_vnos(igra):
-    navodila = "Najprej vnesi stolpec nato vrstico. Če želiš postaviti zastavico,"
-    "dodaj še črko f. (Na primer: 32f postavi zastavico na mesto,"
-    "ki je v tretjem stolpcu in v drugi vrsti."
-    "Vnesi koordinate: "
+    navodila = """Najprej vnesi stolpec nato vrstico. Če želiš postaviti zastavico,
+    dodaj še črko f. (Na primer: 32f postavi zastavico na mesto,
+    ki je v tretjem stolpcu in v drugi vrsti.
+    Vnesi koordinate: """
 
     vnos = input("Vnesi koordinate (za navodila pritisni N): ")
 
@@ -45,6 +47,28 @@ def veljaven_vnos(moj_vnos, igra):
     else:
         return True
 
-def postavitev(igra):
-    pass
+
+
+def pozeni_vmesnik():
+    igra = model.nova_igra()
+    while True:
+        #izpisimo stanje
+        print(izpis_igre(igra))
+        #igralec
+        korak = zahtevaj_vnos()
+        if not veljaven_vnos(korak):
+            continue #preskoci preostanek zanke
+
+        igra.ugibaj(korak)
+        
+        #preverimo če je igre konec
+        if igra.poraz():
+            print(izpis_poraza(igra))
+            break
+        elif igra.zmaga():
+            print(izpis_zmage(igra))
+            break
+    return
+
+pozeni_vmesnik()
     

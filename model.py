@@ -35,6 +35,7 @@ class Polje():
         self.st_stolpcev = st_stolpcev
         self.st_min = st_min
         self.polja = polja
+        super().__init__()
 
 
     def st_min_v_okolici(self, x0, y0, mine):
@@ -46,6 +47,18 @@ class Polje():
                 if (x, y) in mine and (x != x0 or y != y0):
                     st += 1
         return st
+    
+    #mogoče gre to raje v tekstovni vmesnik
+    def je_mina(self, x0, y0):
+        self[x0][y0].je_mina()
+    #ta tudi
+    def postavi_zastavico(self, x0, y0):
+        if not self[x0][y0].odkrita:
+            self[x0][y0].postavi_zastavico()
+        else:
+            print("Celica je že vidna. Zastavice ne moreš postaviti.")
+
+
 
     def polje_brez_min(self, x0, y0):
         st = st_min_v_okolici(self, x0, y0, mine)
@@ -64,9 +77,11 @@ class Polje():
         
     #odkriješ polje z mino
     def poraz(self):
-        #if self.odkrij_celico() and self.je_mina():
-         #   return True
-        pass
+        if self.odkrij_celico() and self.je_mina():
+            return True
+        else:
+            return False
+        
 
 
     #ce celica nima min v okolici, odpre tudi vse sosednje celice
@@ -96,3 +111,17 @@ class Polje():
                         celica.odkrita == True
                     else:
                         return celica.odkrita == False
+
+    def ostanek_min(self):
+        ostanek = 0
+        for vrstica in self.polja:
+            for celica in vrstica:
+                if celica.je_mina():
+                    ostanek += 1
+                elif celica.z_zastavico:
+                    ostanek -= 1
+        return ostanek
+
+    
+def nova_igra():
+        pass
