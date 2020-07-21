@@ -8,32 +8,48 @@ def izpis_poraza(igra):
 def izpis_zmage(igra):
     return "Čestitke, odkril/a si vsa polja brez min."
 
-def izpis_igre(igra):
-    pass
+#dolocis velikost polja
+def zacetek_igre(igra):
+    print("""Dobrodošel v igri minolovec.
+    Cilj igre je odkriti vsa polja brez min.""")
 
-def postavitev(st_vrstic, st_stolpcev, mine):
-    polje = Polje(tuple([([Celica(False) for i in range(st_vrstic - 1)])
-            for j in range(st_stolpcev)]))
-    nezasedena_polja = list(range((st_vrstic - 1) * (st_stolpcev - 1)))
-    #tuki mogoce bosl st min
-    for n in range(mine):
-        novo_polje = random.choice(nezasedena_polja)
-        nezasedena_polja.remove(novo_polje)
-        (vrstica, stolpec) = (novo_polje % 9, novo_polje // 9)
-        polje.je_mina(vrstica, stolpec)
-    return polje
+
+def izpis_igre(igra):
+    izpis = "  "
+    for id_st in range(len(igra.polja)):
+        izpis += str(id_st) + "  "
+    izpis += "\n\n"
+
+    for vrstica in range(len(igra.polja)):
+        niz = ""
+        for stolpec in range(len(igra.polja)):
+            niz += str(izpis_celice(igra, vrstica, stolpec)) + "  "
+        izpis += niz + "\n"
+    return izpis
+
+
+def izpis_celice(igra, vrstica, stolpec):
+    celica = igra.polja[vrstica][stolpec]
+    if celica.mina == True and celica.odkrita == True:
+        return "M"
+    elif celica.mina == False and celica.odkrita == True:
+        return str(st_min_v_okolici(vrstica, stolpec))
+    elif celica.z_zastavico == True:
+        return "F"
+    else:
+        return "X"
 
     
-
 def zahtevaj_vnos(igra):
-    navodila = """Najprej vnesi stolpec nato vrstico. Če želiš postaviti zastavico,
-    dodaj še črko f. (Na primer: 32f postavi zastavico na mesto,
-    ki je v tretjem stolpcu in v drugi vrsti.
+    navodila = """Najprej vnesi vrstico nato stolpec. Loči ju s presledkom.
+    Če želiš postaviti zastavico, dodaj še črko f. 
+    (Na primer: 3 2 f postavi zastavico na mesto,
+    ki je v tretji vrstici in v drugem stolpcu.
     Vnesi koordinate: """
 
-    vnos = input("Vnesi koordinate (za navodila pritisni N): ")
+    vnos = input("Vnesi koordinate (za pomoč pritisni P): ")
 
-    if vnos == "N":
+    if vnos == "P":
         vnos = input(navodila)
 
     while not veljaven_vnos(vnos, igra):
@@ -41,30 +57,41 @@ def zahtevaj_vnos(igra):
         if vnos == "N":
             vnos = input(navodila)
     
-    x0 = int(vnos[0])
-    y0 = int(vnos[1])
-    #tuki se ne vem kaj naj vrne, upoštevat bi mogla tut zastavico
-    return (x0, y0)
+    vnseseni_podatki = vnos.split(" ")
+    vrstica = int(vnseseni_podatki[0])
+    stolpec = int(vnseseni_podatki[1])
+    return [vrstica, stolpec, vnseseni_podatki[- 1] == "f"]
 
 
 def veljaven_vnos(moj_vnos, igra):
-    if len(moj_vnos) not in (2, 3) or not moj_vnos[:1].isdigit() or int(moj_vnos[0]) not in range(st_stolpcev) or int(moj_vnos[1]) not in range(st_vrstic) or moj_vnos == "N":
-        return False
-    
-    if len(moj_vnos) == 3 and moj_vnos[2] != "f":
-        return False
-    
+    vnseseni_podatki = vnos.split(" ")
+    st = len(vnseseni_podatki)
+    if st == 2:
+        prvi = vnseseni_podatki[0]
+        drugi = vnseseni_podatki[1]
+        if prvi.isdigit() and drugi.isdigit():
+            if 0 <= int(prvi) <= len(igre) and 0 <= int(drugi) <= len(igre[0]):
+                return True
+        else:
+            return False
+    elif st == 3:
+        prvi = vnseseni_podatki[0]
+        drugi = vnseseni_podatki[1]
+        if prvi.isdigit() and drugi.isdigit():
+            if 0 <= int(prvi) <= len(igre) and 0 <= int(drugi) <= len(igre[0]):
+                if vnseseni_podatki[2] == "f":
+                    return True
+        else:
+            return False
     else:
-        return True
-
-
+        return False
 
 def pozeni_vmesnik():
-    igra = model.nova_igra()
     st_vrstic = 10
     st_stolpcev = 10
-    mine = 9
-    print(postavitev(st_vrstic, st_stolpcev, mine))
+    st_min = 9
+    igra = model.nova_igra(st_vrstic, st_stolpcev, st_min)
+    zacetek_igre(igra)
     while True:
         #izpisimo stanje
         print(izpis_igre(igra))
@@ -73,7 +100,7 @@ def pozeni_vmesnik():
         if not veljaven_vnos(korak):
             continue #preskoci preostanek zanke
 
-        igra.ugibaj(korak)
+        #igra.ugibaj(korak)
         
         #preverimo če je igre konec
         if igra.poraz():

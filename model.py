@@ -32,9 +32,9 @@ class Celica:
 
 
 class Polje(tuple):
-    def __init__(self, st_min, polja):
-        self.st_min = st_min
+    def __init__(self, polja=[]):
         self.polja = polja
+        #polja bodo seznam seznamov po vrsticah
         #super().__init__()
 
         #celica = polja[vrstica][stolpec]
@@ -72,14 +72,14 @@ class Polje(tuple):
 
  
     #mogoče gre to raje v tekstovni vmesnik
-    def je_mina(self, x0, y0):
-        self[x0][y0].je_mina()
-    #ta tudi
-    def postavi_zastavico(self, x0, y0):
-        if not self[x0][y0].odkrita:
-            self[x0][y0].postavi_zastavico()
-        else:
-            print("Celica je že vidna. Zastavice ne moreš postaviti.")
+    #def je_mina(self, x0, y0):
+    #    self[x0][y0].je_mina()
+    ##ta tudi
+    #def postavi_zastavico(self, x0, y0):
+    #    if not self[x0][y0].odkrita:
+    #        self[x0][y0].postavi_zastavico()
+    #    else:
+    #        print("Celica je že vidna. Zastavice ne moreš postaviti.")
 
 
     def postavi_zastavico(self, vrstica, stolpec):
@@ -128,6 +128,7 @@ class Polje(tuple):
 
     #spremeni stanje igre glede na uporabnikovo ugibanje
     def ugibaj(self, vrstica, stolpec):
+        #se dodat zastavico najbrs
         #kaj se zgodi če vnešeni podatki niso ustrezni
         if not vrstica.isdigit() or not stolpec.isdigit():
             return NAPAKA
