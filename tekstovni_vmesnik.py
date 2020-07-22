@@ -10,12 +10,14 @@ def izpis_zmage(igra):
 
 #dolocis velikost polja
 def zacetek_igre(igra):
-    print("""Dobrodošel v igri minolovec.
-    Cilj igre je odkriti vsa polja brez min.""")
+    print("""=======================================
+Dobrodošel v igri minolovec.
+Cilj igre je odkriti vsa polja brez min.
+=======================================""")
 
 
 def izpis_igre(igra):
-    izpis = "  "
+    izpis = ""
     for id_st in range(len(igra.polja)):
         izpis += str(id_st) + "  "
     izpis += "\n\n"
@@ -64,13 +66,13 @@ def zahtevaj_vnos(igra):
 
 
 def veljaven_vnos(moj_vnos, igra):
-    vnseseni_podatki = vnos.split(" ")
+    vnseseni_podatki = moj_vnos.split(" ")
     st = len(vnseseni_podatki)
     if st == 2:
         prvi = vnseseni_podatki[0]
         drugi = vnseseni_podatki[1]
         if prvi.isdigit() and drugi.isdigit():
-            if 0 <= int(prvi) <= len(igre) and 0 <= int(drugi) <= len(igre[0]):
+            if 0 <= int(prvi) <= len(igra) and 0 <= int(drugi) <= len(igra):
                 return True
         else:
             return False
@@ -78,7 +80,7 @@ def veljaven_vnos(moj_vnos, igra):
         prvi = vnseseni_podatki[0]
         drugi = vnseseni_podatki[1]
         if prvi.isdigit() and drugi.isdigit():
-            if 0 <= int(prvi) <= len(igre) and 0 <= int(drugi) <= len(igre[0]):
+            if 0 <= int(prvi) <= len(igra) and 0 <= int(drugi) <= len(igra[0]):
                 if vnseseni_podatki[2] == "f":
                     return True
         else:
@@ -86,17 +88,19 @@ def veljaven_vnos(moj_vnos, igra):
     else:
         return False
 
+velikost = 8
+st_min = 5
+
+#to moram se izboljsat
 def pozeni_vmesnik():
-    st_vrstic = 10
-    st_stolpcev = 10
-    st_min = 9
-    igra = model.nova_igra(st_vrstic, st_stolpcev, st_min)
+    
+    igra = model.nova_igra(velikost, st_min)
     zacetek_igre(igra)
     while True:
         #izpisimo stanje
         print(izpis_igre(igra))
         #igralec
-        korak = zahtevaj_vnos()
+        korak = zahtevaj_vnos(igra)
         if not veljaven_vnos(korak):
             continue #preskoci preostanek zanke
 

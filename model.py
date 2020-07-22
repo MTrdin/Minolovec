@@ -31,13 +31,16 @@ class Celica:
         self.mina = True
 
 
-class Polje(tuple):
+class Polje:
     def __init__(self, polja=[]):
         self.polja = polja
         #polja bodo seznam seznamov po vrsticah
         #super().__init__()
 
         #celica = polja[vrstica][stolpec]
+    
+    def __len__(self):
+        return len(self.polja)
 
     def st_min_v_okolici(self, vrstica, stolpec):
         st = 0
@@ -47,8 +50,8 @@ class Polje(tuple):
         return st
 
     def sosedi_celice(self, vr, st):
-        st_vrstic = len(polja)
-        st_stolpcev = len(polja[0])
+        st_vrstic = len(self.polja)
+        st_stolpcev = len(self.polja[0])
         sez = [[vr - 1, st - 1], [vr - 1, st], [vr - 1, st + 1], [vr, st - 1], [vr, st + 1],[vr + 1, st - 1], [vr + 1, st],[vr + 1, st + 1]]
         nov_sez = []
         for celica in sez:
@@ -60,8 +63,8 @@ class Polje(tuple):
 
     #pogleda, da ni slucajno cez rob
     def legalna_celica(self, vrstica, stolpec):
-        st_vrstic = len(polja)
-        st_stolpcev = len(polja[0])
+        st_vrstic = len(self.polja)
+        st_stolpcev = len(self.polja[0])
         if vrstica >= 0 and vrstica < st_vrstic:
             if stolpec >= 0 and stolpec < st_stolpcev:
                 return True
@@ -83,7 +86,7 @@ class Polje(tuple):
 
 
     def postavi_zastavico(self, vrstica, stolpec):
-        celica = polja[vrstica][stolpec]
+        celica = self.polja[vrstica][stolpec]
         if not celica.odkrita:
             celica.postavi_zastavico()
         else:
@@ -91,7 +94,7 @@ class Polje(tuple):
 
     #se treba dodat, da prvi klik ni mina, ampka prazno polje
     def odkrij_celico(self, vrstica, stolpec):
-        celica = polja[vrstica][stolpec]
+        celica = self.polja[vrstica][stolpec]
         if not celica.odkrita:
             celica.odkrij_celico()
             #za celice, ki nimajo min v okolici, odkrije tudi druge celice
@@ -138,7 +141,7 @@ class Polje(tuple):
         if not legalna_celica(vr, st):
             return NAPAKA
 
-        celica = self.polje[vr][st]
+        celica = self.polja[vr][st]
         #stanje po ugibu
         if celica.je_mina(): #self.poraz()
             return PORAZ
@@ -177,19 +180,22 @@ class Polje(tuple):
                     ostanek -= 1
         return ostanek
 
+velikost = 8
+st_min = 5
 
-def zgradi_polje(st_vrstic, st_stolpcev, st_min):
+
+def zgradi_polje(velikost, st_min):
     sez_celic = []
-    for i in range(st_vrstic):
+    for i in range(velikost):
         vrstica = []
-        for j in range(st_stolpcev):
+        for j in range(velikost):
             vrstica.append(Celica(i, j, False))
-    sez_celic.append(vrstica)
+        sez_celic.append(vrstica)
 
     #še postavitev bomb
     prosta_mesta = []
-    for i in range(st_vrstic):
-        for j in range(st_stolpcev):
+    for i in range(velikost):
+        for j in range(velikost):
             prosta_mesta.append([i, j])
 
     for l in range(st_min):
@@ -199,7 +205,9 @@ def zgradi_polje(st_vrstic, st_stolpcev, st_min):
         j = izbira[1]
         sez_celic[i][j].je_mina()
     return sez_celic
+
+#zgradi_polje(3, 2)
     
-def nova_igra(st_vrstic, st_stolpcev, st_min):
-    novo_polje = zgradi_polje(st_vrstic, st_stolpcev, st_min)
+def nova_igra(velikost_polja, st_min):
+    novo_polje = zgradi_polje(velikost_polja, st_min)
     return Polje(novo_polje)
