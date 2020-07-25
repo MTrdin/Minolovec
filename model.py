@@ -8,7 +8,7 @@ NAPAKA = "N"
 ZMAGA = "W"
 PORAZ = "L"
 
-ZAČETEK = "S"
+PRVI_UGIB = "S"
 
 
 class Celica:
@@ -37,15 +37,16 @@ class Polje:
         #polja bodo seznam seznamov po vrsticah
         #super().__init__()
 
-        #celica = polja[vrstica][stolpec]
+        #celica = self.polja[vrstica][stolpec]
     
     def __len__(self):
         return len(self.polja)
 
     def st_min_v_okolici(self, vrstica, stolpec):
         st = 0
-        for celica in sosedi_celice(self, vrstica, stolpec):
-            if celica.mina:
+        for [i, j] in self.sosedi_celice(vrstica, stolpec):
+            celica = self.polja[i][j]
+            if celica.mina == True:
                 st += 1
         return st
 
@@ -57,7 +58,7 @@ class Polje:
         for celica in sez:
             i = celica[0]
             j = celica[1]
-            if legalna_celica(self, i, j):
+            if self.legalna_celica(i, j):
                 nov_sez.append(celica)
         return nov_sez
 
@@ -90,7 +91,7 @@ class Polje:
         if not celica.odkrita:
             celica.postavi_zastavico()
         else:
-            return #ne naredi nic
+            return
 
     #se treba dodat, da prvi klik ni mina, ampka prazno polje
     def odkrij_celico(self, vrstica, stolpec):
@@ -99,8 +100,8 @@ class Polje:
             celica.odkrij_celico()
             #za celice, ki nimajo min v okolici, odkrije tudi druge celice
             if self.st_min_v_okolici(vrstica, stolpec) == 0:
-                for cel in self.sosedi_celice(vrstica, stolpec):
-                    cel.odkrij_celico()
+                for [i, j] in self.sosedi_celice(vrstica, stolpec):
+                    self.odkrij_celico(i, j)
                     
 
     #brezvezna fuja
@@ -115,7 +116,7 @@ class Polje:
     def zmaga(self):
         for vrstica in self.polja:
             for celica in vrstica:
-                if not celica.odkrita and not celica.je_mina:
+                if not celica.odkrita and not celica.mina:
                     return False
         return True
         
@@ -123,34 +124,79 @@ class Polje:
     def poraz(self):
         for vrstica in self.polja:
             for celica in vrstica:
-                if celica.odkrita and celica.je_mina:
+                if celica.odkrita == True  and celica.mina == True:
                     return True
         return False
         
 
 
     #spremeni stanje igre glede na uporabnikovo ugibanje
-    def ugibaj(self, vrstica, stolpec):
-        #se dodat zastavico najbrs
+    def ugibaj(self, vr, st, zastavica):
+        #zastavica je true ali false
         #kaj se zgodi če vnešeni podatki niso ustrezni
-        if not vrstica.isdigit() or not stolpec.isdigit():
-            return NAPAKA
-        
-        vr = int(vrstica)
-        st = int(stolpec)
-        if not legalna_celica(vr, st):
+        #if not vrstica.isdigit() or not stolpec.isdigit():
+        #    return NAPAKA
+        #
+        #vr = int(vrstica)
+        #st = int(stolpec)
+        if not self.legalna_celica(vr, st):
             return NAPAKA
 
         celica = self.polja[vr][st]
-        #stanje po ugibu
-        if celica.je_mina(): #self.poraz()
-            return PORAZ
+
+        #pogledat če prvi vnos
+        if self.brez_odkritih_celic():
+            #ce je slucajno celica mina je treba dat mino drugam
+            if celica.mina == True:
+
+                sez_koordinat = []
+                for i in range(len(self.polja)):
+                    for j in range(len(self.polja)):
+                        sez_koordinat.append([i, j])
+
+                mesta_brez_bomb = []
+                for [i, j] in sez_koordinat:
+                    celica_x = self.polja[i][j]
+                    if celica_x.mina == False:
+                        mesta_brez_bomb.append([i, j])
+
+                izbira = random.choice(mesta_brez_bomb)
+                self.polja[izbira[0]][izbira[1]].je_mina()
+                celica.mina = False
+                self.odkrij_celico(vr, st)
+                return PRVI_UGIB
+
+            else:
+                self.odkrij_celico(vr, st)
+                return PRVI_UGIB
         
-        elif self.zmaga():
-            return ZMAGA
+        if celica.odkrita == True:
+            return NAPAKA
+
         
+        elif zastavica == False:
+            self.odkrij_celico(vr, st)
+            if self.poraz():
+                return PORAZ
+            elif self.zmaga():
+                return ZMAGA
+            else:
+                return ODKRITO_POLJE
+        
+        elif zastavica == True:
+            self.postavi_zastavico(vr, st)
+            return ZASTAVICA
+
         else:
-            return ODKRITO_POLJE
+            return
+
+    #pomozna fuja
+    def brez_odkritih_celic(self):
+        for vrsta in self.polja:
+            for celica in vrsta:
+                if celica.odkrita == True:
+                    return False
+        return True
 
     #ta funkcija se ni v redu
     def pokazi_vse_mine(self):
