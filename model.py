@@ -12,7 +12,7 @@ PRVI_UGIB = "S"
 
 
 class Celica:
-    def __init__(self, mina, vrstica, stolpec, odkrita=False, z_zastavico=False):
+    def __init__(self, vrstica, stolpec, mina, odkrita=False, z_zastavico=False):
         self.mina = mina
         self.odkrita = odkrita
         self.z_zastavico = z_zastavico
@@ -200,19 +200,19 @@ class Polje:
 
     #ta funkcija se ni v redu
     def pokazi_vse_mine(self):
-        for vrstica in polja:
+        for vrstica in self.polja:
             for celica in vrstica:
-                if celica.mina:
-                    if not celica.odkrij_celico():
-                        celica.odkrita == True
+                if celica.mina == True:
+                    if not celica.odkrita:
+                        celica.odkritj_celico()
                     else:
-                        return celica.odkrita == False
+                        return
 
     def postavljene_zastavice(self):
         st = 0
         for vrstica in self.polja:
             for celica in vrstica:
-                if celica.z_zastavico:
+                if celica.z_zastavico == True:
                     st += 1
         return st
     
@@ -220,9 +220,9 @@ class Polje:
         ostanek = 0
         for vrstica in self.polja:
             for celica in vrstica:
-                if celica.je_mina():
+                if celica.mina == True:
                     ostanek += 1
-                elif celica.z_zastavico:
+                elif celica.z_zastavico == True:
                     ostanek -= 1
         return ostanek
 
