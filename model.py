@@ -204,7 +204,7 @@ class Polje:
             for celica in vrstica:
                 if celica.mina == True:
                     if not celica.odkrita:
-                        celica.odkritj_celico()
+                        celica.odkrij_celico()
                     else:
                         return
 
@@ -226,8 +226,7 @@ class Polje:
                     ostanek -= 1
         return ostanek
 
-velikost = 8
-st_min = 5
+
 
 
 def zgradi_polje(velikost, st_min):
