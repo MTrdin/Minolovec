@@ -198,7 +198,6 @@ class Polje:
                     return False
         return True
 
-    #ta funkcija se ni v redu
     def pokazi_vse_mine(self):
         for vrstica in self.polja:
             for celica in vrstica:
@@ -256,3 +255,30 @@ def zgradi_polje(velikost, st_min):
 def nova_igra(velikost_polja, st_min):
     novo_polje = zgradi_polje(velikost_polja, st_min)
     return Polje(novo_polje)
+
+
+
+class Minolovec:
+    def __init__(self):
+        self.igre = {}
+
+    def prost_id_igre(self):
+        if self.igre.keys():
+            return max(self.igre.keys()) + 1
+        else:
+            return 0
+
+#ta še ni v redu
+    def nova_igra(self):
+        id_igre = self.prost_id_igre()
+
+
+
+        return id_igre
+
+#tuki za argument verjetno st min in velikost polja
+    def ugibaj(self, id_igre, nekineki):
+        igra = self.igre[id_igre][0]
+        novo_stanje = igra.ugibaj(nekineki)
+
+        self.igre[id_igre] = (igra, novo_stanje)
