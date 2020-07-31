@@ -8,7 +8,8 @@ NAPAKA = "N"
 ZMAGA = "W"
 PORAZ = "L"
 
-PRVI_UGIB = "S"
+PRVI_UGIB = "A"
+ZACETEK = "S"
 
 
 class Celica:
@@ -269,16 +270,17 @@ class Minolovec:
             return 0
 
 #ta še ni v redu
-    def nova_igra(self):
+    def nova_igra(self, velikost_polja, st_min):
         id_igre = self.prost_id_igre()
+
+        igra = Polje()
+        self.igre[id_igre] = [igra, velikost_polja, st_min, ZACETEK]
 
 
 
         return id_igre
 
-#tuki za argument verjetno st min in velikost polja
-    def ugibaj(self, id_igre, nekineki):
+    def ugibaj(self, id_igre, vrstica, stolpec, zastavica):
         igra = self.igre[id_igre][0]
-        novo_stanje = igra.ugibaj(nekineki)
-
-        self.igre[id_igre] = (igra, novo_stanje)
+        novo_stanje = igra.ugibaj(vrstica, stolpec, zastavica)
+        self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]
