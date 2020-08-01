@@ -1,0 +1,38 @@
+%import model
+%rebase("base.html", title = "Minolovec")
+
+<div>
+    Postavljene zastavice: {{igra.postavljene_zastavice()}}
+</div>
+<div>
+    Mine: {{st_min}}
+</div>
+
+<table>
+
+<!--se izpis igre-->
+
+% if stanje == model.ZMAGA:
+<h1>ZMAGA!</h1>
+<p>Bravo! Zmagali ste!</p>
+
+<form action="/nova_igra/" method="post">
+    <button type="submit">Nova igra</button>
+</form>
+
+% elif stanje == model.PORAZ
+<h1>KONEC IGRE!</h1>
+<p>Sprožili ste mino! Igre je konec.</p>
+
+<form action="/nova_igra/" method="post">
+    <button type="submit">Nova igra</button>
+</form>
+
+% else:
+<form method="post" action="/igra/">
+    Tvoja poteza:<input name="poskus" /> <input type="submit" value="Ugibaj!">
+</form>
+
+
+
+</table>

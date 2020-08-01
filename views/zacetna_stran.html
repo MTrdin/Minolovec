@@ -1,0 +1,22 @@
+%rebase("base.html")
+
+<h1>Dobrodošel na portalu minolovec!</h1>
+
+<h2>Navodila</h2>
+<p>
+    Napiši navodila.<br>
+    Še vedno navodila.
+</p>
+
+<p>Preden začneš moraš izbrati še težavnost.</p>
+
+<h2>Izberi težavnost</h2>
+<form action="/nova_igra/" method="post">
+    <input type="radio" name="tezavnost" value="lahko">
+    <label for="lahko">Lahko</label><br>
+    <input type="radio" name="tezavnost" value="srednje">
+    <label for="srednje">Srednje</label><br>
+    <input type="radio" name="tezavnost" value="tezko">
+    <label for="tezko">Težko</label>
+    <input type="submit" value="Nova igra">
+</form> 
