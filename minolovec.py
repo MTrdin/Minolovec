@@ -45,10 +45,42 @@ def ugibaj():
     poskus = bottle.request.forms.getunicode("poskus")
     #podatke poslane prek POST preberes iz request.forms iz igra.html
     #dobit moram vr, st, zastavico
-
-    minolovec.ugibaj(id_igre, vrstica, stolpec, zastavica)
+    #najprej pogledat ce je veljaven vnos
+    while not veljaven_vnos(minolovec, id_igre, poskus):
+        stanje = NAPAKA #mogoce to ne bo delal ker je post?
+        return bottle.template("igra.html", igra=igra, stanje=stanje)
+    
+    vnseseni_podatki = poskus.split(" ")
+    vrstica = int(vnseseni_podatki[0])
+    stolpec = int(vnseseni_podatki[1])
+    
+    minolovec.ugibaj(id_igre, vrstica, stolpec, vnseseni_podatki[- 1] == "f")
     
     bottle.redirect('/igra/')
+
+
+def veljaven_vnos(minolovec, id_igre, poskus):
+    vnseseni_podatki = poskus.split(" ")
+    st = len(vnseseni_podatki)
+    if st == 2:
+        prvi = vnseseni_podatki[0]
+        drugi = vnseseni_podatki[1]
+        if prvi.isdigit() and drugi.isdigit():
+            if 0 <= int(prvi) < (minolovec.igre[id_igre][1]) and 0 <= int(drugi) < (minolovec.igre[id_igre][1]):
+                return True
+        else:
+            return False
+    elif st == 3:
+        prvi = vnseseni_podatki[0]
+        drugi = vnseseni_podatki[1]
+        if prvi.isdigit() and drugi.isdigit():
+            if 0 <= int(prvi) < (minolovec.igre[id_igre][1]) and 0 <= int(drugi) < (minolovec.igre[id_igre][1]):
+                if vnseseni_podatki[2] == "f":
+                    return True
+        else:
+            return False
+    else:
+        return False
 
 
 bottle.run(reloader=True, debug=True)
