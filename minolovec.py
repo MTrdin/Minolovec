@@ -17,7 +17,7 @@ def nova_igra():
     if tezavnost == "lahko":
         velikost_polja = 8
         st_min = 10
-    
+
     if tezavnost == "srednje":
         velikost_polja = 16
         st_min = 40
@@ -35,7 +35,6 @@ def pokazi_igro():
     id_igre = bottle.request.get_cookie("id_igre", secret=SECRET)
     [igra, velikost_polja, st_min, stanje] = minolovec.igre[id_igre]
     # igra = Polje()
-
     return bottle.template("igra.html", igra=igra, stanje=stanje, id_igre=id_igre, ZMAGA=model.ZMAGA, PORAZ=model.PORAZ, st_min=st_min, velikost_polja=velikost_polja)
 
 #ni se v redu
@@ -49,13 +48,13 @@ def ugibaj():
     while not veljaven_vnos(minolovec, id_igre, poskus):
         stanje = NAPAKA #mogoce to ne bo delal ker je post?
         return bottle.template("igra.html", igra=igra, stanje=stanje)
-    
+
     vnseseni_podatki = poskus.split(" ")
     vrstica = int(vnseseni_podatki[0])
     stolpec = int(vnseseni_podatki[1])
-    
+
     minolovec.ugibaj(id_igre, vrstica, stolpec, vnseseni_podatki[- 1] == "f")
-    
+
     bottle.redirect('/igra/')
 
 
