@@ -258,6 +258,21 @@ def nova_igra(velikost_polja, st_min):
     return Polje(novo_polje)
 
 
+#za celico prikazano v spletnem vmesniku
+def izpis_celice(igra, vrstica, stolpec):
+    celica = igra.polja[vrstica][stolpec]
+    if celica.mina == True and celica.odkrita == True:
+        return "M"
+    elif celica.mina == False and celica.odkrita == True:
+        if igra.st_min_v_okolici(vrstica, stolpec) == 0:
+            return " "
+        else:
+            return str(igra.st_min_v_okolici(vrstica, stolpec))
+    elif celica.z_zastavico == True:
+        return "F"
+    else:
+        return "X"
+
 
 class Minolovec:
     def __init__(self):

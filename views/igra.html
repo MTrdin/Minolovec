@@ -8,9 +8,28 @@
     Mine: {{st_min}}
 </div>
 
-<table>
+<table class="table" table is-boarded>
+    <thead>
+        <tr><!--ne vem ce je pravilno da je tm velikost polja ali raje len(igra.polja)-->
+            % for id_st in range(velikost_polja):
+            <th>{{id_st}}</th>
+            %end
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            % for vrstica in range(velikost_polja):
+            <th>{{vrstica}}</th>
+            % for stolpec in range(velikost_polja):
+            <!--tuki se podere-->
+            % celica = model.izpis_celice(igra, vrstica, stolpec)
+            <td>{{celica}}</td>
+            %end
+        </tr>
+    </tbody>
 
-<!--se izpis igre-->
+</table>
+
 
 % if stanje == model.ZMAGA:
 <h1>ZMAGA!</h1>
@@ -20,7 +39,7 @@
     <button type="submit">Nova igra</button>
 </form>
 
-% elif stanje == model.PORAZ
+% elif stanje == model.PORAZ:
 <h1>KONEC IGRE!</h1>
 <p>Sprožili ste mino! Igre je konec.</p>
 
@@ -35,4 +54,4 @@
 %end
 
 
-</table>
+

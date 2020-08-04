@@ -1,15 +1,18 @@
 %rebase("base.html")
 
-<h1>Dobrodošel na portalu minolovec!</h1>
+<h2 class="title is-2">Dobrodošel na portalu minolovec!</h2>
 
-<h2>Navodila</h2>
+
+<h3 class="subtitle is-3">Navodila:</h3>
 <p>
     Napiši navodila.<br>
     Še vedno navodila.
 </p>
 
-<p>Preden začneš moraš izbrati še težavnost.</p>
 
+<h4 class="subtitle is-4">Preden začneš moraš izbrati še težavnost.</h4>
+
+<!--
 <h2>Izberi težavnost</h2>
 <form action="/nova_igra/" method="post">
     <input type="radio" name="tezavnost" value="lahko">
@@ -20,3 +23,31 @@
     <label for="tezko">Težko</label>
     <input type="submit" value="Nova igra">
 </form> 
+-->
+
+<form action="/nova_igra/" method="post">
+<div class="dropdown is-active">
+  <div class="dropdown-trigger">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+      <span>Izberi težavnost</span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      <a href="#" class="dropdown-item" name="tezavnost" value="lahko">
+        Lahko
+      </a>
+      <a class="dropdown-item" name="tezavnost" value="srednje">
+        Srednje
+      </a>
+      <a class="dropdown-item" name="tezavnost" value="tezko">
+        Težko
+      </a>
+    </div>
+  </div>
+</div>
+<input type="submit" value="Nova igra">
+</form>
