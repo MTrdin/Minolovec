@@ -192,7 +192,7 @@ class Polje:
             return ZASTAVICA
 
         else:
-            return
+            return ODKRITO_POLJE
 
     #pomozna fuja
     def brez_odkritih_celic(self):
@@ -254,7 +254,6 @@ def zgradi_polje(velikost, st_min):
         sez_celic[i][j].je_mina()
     return sez_celic
 
-#zgradi_polje(3, 2)
 
 def nova_igra(velikost_polja, st_min):
     novo_polje = zgradi_polje(velikost_polja, st_min)
@@ -287,7 +286,6 @@ class Minolovec:
         else:
             return 0
 
-#ta še ni v redu
     def nova_igra(self, velikost_polja, st_min):
         id_igre = self.prost_id_igre()
 
@@ -298,6 +296,8 @@ class Minolovec:
         return id_igre
 
     def ugibaj(self, id_igre, vrstica, stolpec, zastavica):
-        igra = self.igre[id_igre][0]
+        [igra, velikost_polja, st_min, stanje] = self.igre[id_igre]
+        #igra = self.igre[id_igre][0]
         novo_stanje = igra.ugibaj(vrstica, stolpec, zastavica)
-        self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]
+        #self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]
+        self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]#drugace ne ve kaj je velikost polja

@@ -45,8 +45,9 @@ def ugibaj():
     #podatke poslane prek POST preberes iz request.forms iz igra.html
     #dobit moram vr, st, zastavico
     #najprej pogledat ce je veljaven vnos
-    while not veljaven_vnos(minolovec, id_igre, poskus):
+    while not veljaven_vnos(id_igre, poskus):
         stanje = NAPAKA #mogoce to ne bo delal ker je post?
+        #najbrs morm se preusmert?
         return bottle.template("igra.html", igra=igra, stanje=stanje)
 
     vnseseni_podatki = poskus.split(" ")
@@ -58,14 +59,15 @@ def ugibaj():
     bottle.redirect('/igra/')
 
 
-def veljaven_vnos(minolovec, id_igre, poskus):
+def veljaven_vnos(id_igre, poskus):
     vnseseni_podatki = poskus.split(" ")
     st = len(vnseseni_podatki)
+    moja_igra = minolovec.igre[id_igre][0]
     if st == 2:
         prvi = vnseseni_podatki[0]
         drugi = vnseseni_podatki[1]
         if prvi.isdigit() and drugi.isdigit():
-            if 0 <= int(prvi) < (minolovec.igre[id_igre][1]) and 0 <= int(drugi) < (minolovec.igre[id_igre][1]):
+            if 0 <= int(prvi) < (len(moja_igra.polja)) and 0 <= int(drugi) < (len(moja_igra.polja)):
                 return True
         else:
             return False
@@ -73,7 +75,7 @@ def veljaven_vnos(minolovec, id_igre, poskus):
         prvi = vnseseni_podatki[0]
         drugi = vnseseni_podatki[1]
         if prvi.isdigit() and drugi.isdigit():
-            if 0 <= int(prvi) < (minolovec.igre[id_igre][1]) and 0 <= int(drugi) < (minolovec.igre[id_igre][1]):
+            if 0 <= int(prvi) < (len(moja_igra.polja)) and 0 <= int(drugi) < (len(moja_igra.polja)):
                 if vnseseni_podatki[2] == "f":
                     return True
         else:
