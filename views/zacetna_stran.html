@@ -22,32 +22,21 @@
     <input type="radio" name="tezavnost" value="tezko">
     <label for="tezko">Težko</label>
     <input type="submit" value="Nova igra">
-</form> 
+</form>
 -->
 
 <form action="/nova_igra/" method="post">
-<div class="dropdown is-active">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-      <span>Izberi težavnost</span>
-      <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-    <div class="dropdown-content">
-      <a href="#" class="dropdown-item" name="tezavnost" value="lahko">
-        Lahko
-      </a>
-      <a class="dropdown-item" name="tezavnost" value="srednje">
-        Srednje
-      </a>
-      <a class="dropdown-item" name="tezavnost" value="tezko">
-        Težko
-      </a>
+  <div class="field">
+    <div class="control">
+      <div class="select is-primary">
+        <select name="tezavnost" id="tezavnost">
+          <option disabled selected value> -- Izberi težavnost -- </option>
+          <option value="lahko">Lahko</option>
+          <option value="srednje">Srednje</option>
+          <option value="tezko">Težko</option>
+        </select>
+      </div>
     </div>
   </div>
-</div>
 <input type="submit" value="Nova igra">
 </form>

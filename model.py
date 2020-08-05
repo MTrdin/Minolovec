@@ -3,7 +3,7 @@ import random
 MINA = "*"
 ZASTAVICA = "#"
 ODKRITO_POLJE = "-"
-NAPAKA = "N" 
+NAPAKA = "N"
 
 ZMAGA = "W"
 PORAZ = "L"
@@ -20,8 +20,8 @@ class Celica:
         #koordinate
         self.vrstica = vrstica
         self.stolpec = stolpec
-        
-        
+
+
     def odkrij_celico(self):
         self.odkrita = True
 
@@ -33,13 +33,16 @@ class Celica:
 
 
 class Polje:
-    def __init__(self, polja=[]):
-        self.polja = polja
+    def __init__(self, polja=None):
+        if polja is None:
+            self.polja = []
+        else:
+            self.polja = polja
         #polja bodo seznam seznamov po vrsticah
         #super().__init__()
 
         #celica = self.polja[vrstica][stolpec]
-    
+
     def __len__(self):
         return len(self.polja)
 
@@ -75,7 +78,7 @@ class Polje:
         else:
             return False
 
- 
+
     #mogoče gre to raje v tekstovni vmesnik
     #def je_mina(self, x0, y0):
     #    self[x0][y0].je_mina()
@@ -103,7 +106,7 @@ class Polje:
             if self.st_min_v_okolici(vrstica, stolpec) == 0:
                 for [i, j] in self.sosedi_celice(vrstica, stolpec):
                     self.odkrij_celico(i, j)
-                    
+
 
     #brezvezna fuja
     def polje_brez_min(self, x0, y0):
@@ -120,7 +123,7 @@ class Polje:
                 if not celica.odkrita and not celica.mina:
                     return False
         return True
-        
+
     #odkriješ polje z mino
     def poraz(self):
         for vrstica in self.polja:
@@ -128,7 +131,7 @@ class Polje:
                 if celica.odkrita == True  and celica.mina == True:
                     return True
         return False
-        
+
 
 
     #spremeni stanje igre glede na uporabnikovo ugibanje
@@ -170,11 +173,11 @@ class Polje:
             else:
                 self.odkrij_celico(vr, st)
                 return PRVI_UGIB
-        
+
         if celica.odkrita == True:
             return NAPAKA
 
-        
+
         elif zastavica == False:
             self.odkrij_celico(vr, st)
             if self.poraz():
@@ -183,7 +186,7 @@ class Polje:
                 return ZMAGA
             else:
                 return ODKRITO_POLJE
-        
+
         elif zastavica == True:
             self.postavi_zastavico(vr, st)
             return ZASTAVICA
@@ -215,7 +218,7 @@ class Polje:
                 if celica.z_zastavico == True:
                     st += 1
         return st
-    
+
     def ostanek_min(self):
         ostanek = 0
         for vrstica in self.polja:
@@ -252,7 +255,7 @@ def zgradi_polje(velikost, st_min):
     return sez_celic
 
 #zgradi_polje(3, 2)
-    
+
 def nova_igra(velikost_polja, st_min):
     novo_polje = zgradi_polje(velikost_polja, st_min)
     return Polje(novo_polje)
@@ -288,10 +291,9 @@ class Minolovec:
     def nova_igra(self, velikost_polja, st_min):
         id_igre = self.prost_id_igre()
 
-        igra = Polje()
+        polje = zgradi_polje(velikost_polja, st_min)
+        igra = Polje(polje)
         self.igre[id_igre] = [igra, velikost_polja, st_min, ZACETEK]
-
-
 
         return id_igre
 
