@@ -15,7 +15,6 @@ def zacetna_stran():
 def nova_igra():
     tezavnost = bottle.request.forms.getunicode("tezavnost")
     if tezavnost == "lahko":
-        print("wiii")
         velikost_polja = 8
         st_min = 10
 
