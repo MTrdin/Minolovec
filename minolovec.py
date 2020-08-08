@@ -23,8 +23,8 @@ def nova_igra():
         st_min = 40
 
     else:
-        velikost_polja = 22
-        st_min = 99
+        velikost_polja = 19
+        st_min = 98
 
     id_igre = minolovec.nova_igra(velikost_polja, st_min)
     bottle.response.set_cookie("id_igre", id_igre, path='/', secret=SECRET)

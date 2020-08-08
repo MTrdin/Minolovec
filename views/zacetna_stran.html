@@ -1,5 +1,5 @@
 %rebase("base.html")
-
+<div class="content is-medium">
 <h2 class="title is-2">Dobrodošel na portalu minolovec!</h2>
 
 
@@ -8,7 +8,7 @@
     Napiši navodila.<br>
     Še vedno navodila.
 </p>
-
+</div>
 
 <h4 class="subtitle is-4">Preden začneš moraš izbrati še težavnost.</h4>
 
@@ -26,5 +26,21 @@
       </div>
     </div>
   </div>
+<!--
+  kako dobis da informacijo da si izbral doloci sam
+% if l:
+<input type="text" name="doloci">
 <input type="submit" value="Nova igra">
+% else:
+-->
+<input type="submit" value="Nova igra">
+</form>
+
+<form action="/nova_igra/" method="post">
+  <div class="field">
+    <div class="control">
+      Določi sam:<input type="text" value="doloci">
+      <input type="submit" value="Nova igra">
+    </div>
+  </div>
 </form>
