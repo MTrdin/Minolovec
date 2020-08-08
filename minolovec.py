@@ -18,7 +18,7 @@ def nova_igra():
         velikost_polja = 8
         st_min = 10
 
-    if tezavnost == "srednje":
+    elif tezavnost == "srednje":
         velikost_polja = 16
         st_min = 40
 
@@ -45,10 +45,12 @@ def ugibaj():
     #podatke poslane prek POST preberes iz request.forms iz igra.html
     #dobit moram vr, st, zastavico
     #najprej pogledat ce je veljaven vnos
-    while not veljaven_vnos(id_igre, poskus):
-        stanje = NAPAKA #mogoce to ne bo delal ker je post?
+    if not veljaven_vnos(id_igre, poskus):
+        novo_stanje = model.NAPAKA #mogoce to ne bo delal ker je post?
         #najbrs morm se preusmert?
-        return bottle.template("igra.html", igra=igra, stanje=stanje)
+        [igra, velikost_polja, st_min, stanje] = minolovec.igre[id_igre]
+        minolovec.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]
+        bottle.redirect('/igra/')
 
     vnseseni_podatki = poskus.split(" ")
     vrstica = int(vnseseni_podatki[0])
