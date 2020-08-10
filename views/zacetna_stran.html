@@ -28,18 +28,20 @@
   </div>
 <!--
   kako dobis da informacijo da si izbral doloci sam
-% if l:
+if l:
 <input type="text" name="doloci">
 <input type="submit" value="Nova igra">
-% else:
+else:
 -->
 <input type="submit" value="Nova igra">
 </form>
 
+<h4 class="subtitle is-4">Lahko si tudi sam izbereš težavnost.</h4>
 <form action="/nova_igra/" method="post">
   <div class="field">
     <div class="control">
-      Določi sam:<input type="text" value="doloci">
+      <label for="fname">Določi sam:</label>
+      <input type="text" id="tezavnost" name=velikost value="velikost_polja_st_min">
       <input type="submit" value="Nova igra">
     </div>
   </div>
