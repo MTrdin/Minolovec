@@ -11,7 +11,7 @@
 <table class="table" table is-boarded>
     <thead>
         <tr>
-            <th>X</th>
+            <th>0</th>
             % for id_st in range(velikost_polja):
             <th>{{id_st}}</th>
             %end
@@ -37,7 +37,7 @@
 <p>Bravo! Zmagali ste!</p>
 
 <form action="/nova_igra/" method="post">
-    <button type="submit">Nova igra</button>
+    <button type="submit" name="tezavnost" value="hocem_novo_igro">Nova igra</button>
 </form>
 
 % elif stanje == model.PORAZ:
@@ -45,7 +45,7 @@
 <p>Sprožili ste mino! Igre je konec.</p>
 
 <form action="/nova_igra/" method="post">
-    <button type="submit">Nova igra</button>
+    <button type="submit" name="tezavnost" value="hocem_novo_igro">Nova igra</button>
 </form>
 
 % elif stanje == model.NAPAKA:
@@ -58,12 +58,12 @@
 <h1>Neveljaven vnos!</h1>
 
 <form method="post" action="/igra/">
-    Tvoja poteza:<input name="poskus" /> <input type="submit" value="Ugibaj!">
+    Tvoja poteza: <input name="poskus" placeholder=" vrstica stolpec"/> <input type="submit" value="Ugibaj!">
 </form>
 
 % else:
 <form method="post" action="/igra/">
-    Tvoja poteza:<input name="poskus" /> <input type="submit" value="Ugibaj!">
+    Tvoja poteza: <input name="poskus" placeholder=" vrstica stolpec" /> <input type="submit" value="Ugibaj!">
 </form>
 %end
 
