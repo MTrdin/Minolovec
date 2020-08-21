@@ -6,7 +6,6 @@ SECRET = "Ena skrivnost"
 minolovec = model.Minolovec()
 
 #ali def index()
-#se treba narest zacetno stran v html
 @bottle.get("/")
 def zacetna_stran():
     return bottle.template("zacetna_stran.html")
@@ -14,6 +13,7 @@ def zacetna_stran():
 @bottle.post("/nova_igra/")
 def nova_igra():
     tezavnost = bottle.request.forms.getunicode("tezavnost")
+
     if tezavnost == "lahko":
         velikost_polja = 8
         st_min = 10
@@ -22,13 +22,43 @@ def nova_igra():
         velikost_polja = 16
         st_min = 40
 
-    else:
+    elif tezavnost == "tezko":
         velikost_polja = 19
         st_min = 98
+
+    #na koncu igre da te preusmiri na zacetno stran
+    elif tezavnost == "hocem_novo_igro":
+        return bottle.template("zacetna_stran.html")
+
+    else:
+        #pogledas ce je vnos pravi
+        if veljaven_vnos_zacetek(tezavnost):
+            podatki = tezavnost.split(" ")
+            velikost_polja = int(podatki[0])
+            st_min = int(podatki[1])
+        else:
+            return bottle.template("zacetna_stran.html")
 
     id_igre = minolovec.nova_igra(velikost_polja, st_min)
     bottle.response.set_cookie("id_igre", id_igre, path='/', secret=SECRET)
     bottle.redirect("/igra/")
+
+#pomozna fuja za zacetek igre
+def veljaven_vnos_zacetek(tezavnost):
+    podatki = tezavnost.split(" ")
+    if len(podatki) != 2:
+        return False
+
+    prvi = podatki[0]
+    drugi = podatki[1]
+
+    if prvi.isdigit() and drugi.isdigit():
+        if int(drugi) < int(prvi) * int(prvi):
+            return True
+        else:
+            return False
+    else:
+        return False
 
 @bottle.get("/igra/")
 def pokazi_igro():
@@ -60,7 +90,7 @@ def ugibaj():
 
     bottle.redirect('/igra/')
 
-
+#pomozna za ugibaj
 def veljaven_vnos(id_igre, poskus):
     vnseseni_podatki = poskus.split(" ")
     st = len(vnseseni_podatki)
