@@ -14,7 +14,7 @@
 
 
 <form action="/nova_igra/" method="post">
-  <div class="field">
+  <div class="field has-addons">
     <div class="control">
       <div class="select is-primary">
         <select name="tezavnost" id="tezavnost">
@@ -25,24 +25,28 @@
         </select>
       </div>
     </div>
+    <div class="control">
+      <button type="submit" class="button is-primary">Nova igra</button>
+    </div>
   </div>
-<!--
-  kako dobis da informacijo da si izbral doloci sam
-if l:
-<input type="text" name="doloci">
-<input type="submit" value="Nova igra">
-else:
--->
-<input type="submit" value="Nova igra">
 </form>
 
+
 <h4 class="subtitle is-4">Lahko si tudi sam izbereš težavnost.</h4>
+
+<p>
+  Vnesi velikost polja n in število min, ki ju loči s presledkom.<br> 
+  (Na primer: 5 3 bo izrisalo polje 5 x 5 s tremi minami.)
+  
+</p>
+
 <form action="/nova_igra/" method="post">
-  <div class="field">
+  <div class="field has-addons">
     <div class="control">
-      <label for="fname">Določi sam:</label>
-      <input type="text" id="tezavnost" name=velikost value="velikost_polja_st_min">
-      <input type="submit" value="Nova igra">
+      <input class="input" type="text" id="tezavnost" name="tezavnost" placeholder="velikost_polja št_min">
+    </div>
+    <div class="control">
+      <button type="submit" class="button is-primary">Nova igra</button>
     </div>
   </div>
 </form>
