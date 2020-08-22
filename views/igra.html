@@ -33,39 +33,64 @@
 
 
 % if stanje == model.ZMAGA:
-<h1>ZMAGA!</h1>
-<p>Bravo! Zmagali ste!</p>
 
+<div class="container is-fullhd">
+    <div class="notification">
+        <strong>Čestitke! Zmagali ste!</strong> Odkrili ste vsa polja brez min.
+    </div>
+</div>
+
+<br>
 <form action="/nova_igra/" method="post">
-    <button type="submit" name="tezavnost" value="hocem_novo_igro">Nova igra</button>
+    <button class="button is-info is-outlined" type="submit" name="tezavnost" value="hocem_novo_igro">Nova igra</button>
 </form>
 
 % elif stanje == model.PORAZ:
-<h1>KONEC IGRE!</h1>
-<p>Sprožili ste mino! Igre je konec.</p>
 
+<div class="container is-fullhd">
+    <div class="notification">
+        Sprožili ste mino! <strong>Igre je konec!</strong>
+    </div>
+</div>
+
+<br>
 <form action="/nova_igra/" method="post">
-    <button type="submit" name="tezavnost" value="hocem_novo_igro">Nova igra</button>
+    <button class="button is-info is-outlined" type="submit" name="tezavnost" value="hocem_novo_igro">Nova igra</button>
 </form>
 
 % elif stanje == model.NAPAKA:
 
 <div class="container is-fullhd">
     <div class="notification">
-        Neveljaven vnos!
+        <strong>Neveljaven vnos!</strong>
     </div>
 </div>
-<h1>Neveljaven vnos!</h1>
-
+<br>
 <form method="post" action="/igra/">
-    Tvoja poteza: <input name="poskus" placeholder=" vrstica stolpec"/> <input type="submit" value="Ugibaj!">
+    <div class="field has-addons">
+        <div class="control">
+            <input class="input" name="poskus" placeholder=" vrstica stolpec"> 
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-primary is-focused">Ugibaj!</button>
+        </div>
+    </div>
 </form>
 
 % else:
+
 <form method="post" action="/igra/">
-    Tvoja poteza: <input name="poskus" placeholder=" vrstica stolpec" /> <input type="submit" value="Ugibaj!">
+    <div class="field has-addons">
+        <div class="control">
+            <input class="input" name="poskus" placeholder=" vrstica stolpec"> 
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-primary is-focused">Ugibaj!</button>
+        </div>
+    </div>
 </form>
-%end
+
+% end
 
 
 
