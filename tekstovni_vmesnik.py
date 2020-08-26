@@ -1,7 +1,6 @@
 import model
 
 
-#ze vemo da je prislo do poraza
 def izpis_poraza(igra):
     return "Sprožil/a si mino!!! Igre je konec."
 
@@ -114,7 +113,7 @@ def veljaven_vnos_velikosti(cifre):
     drugi = podatki[1]
 
     if prvi.isdigit() and drugi.isdigit():
-        if drugi < prvi:
+        if int(drugi) < int(prvi) * int(prvi):
             return True
         else:
             return False
@@ -126,7 +125,6 @@ def podatki_o_minah(igra):
     return tekst
 
 
-#to moram se izboljsat
 def pozeni_vmesnik():
     zacetek_igre()
 
@@ -137,32 +135,26 @@ def pozeni_vmesnik():
     igra = model.nova_igra(velikost, st_min)
     
     while True:
-        #izpisimo stanje
         print(izpis_igre(igra))
         print(podatki_o_minah(igra))
 
-        #igralec
         poteza = zahtevaj_vnos(igra)
         vrstica = poteza[0]
         stolpec = poteza[1]
         zastavica = poteza[2] #False ali True
-        #celica = igra.polja[vrstica][stolpec]
-
+        
         stanje = igra.ugibaj(vrstica, stolpec, zastavica)
 
-
-        #if not veljaven_vnos(igra, poteza):#vnos preverja ze fuja zahtevaj_vnos
-            #continue #preskoci preostanek zanke
         if stanje == model.NAPAKA:
             print("Celica je že odprta!!!")
-            #poteza = zahtevaj_vnos(igra)
-
+            
         if stanje == model.PORAZ:
             #odkrije vse mine
             igra.pokazi_vse_mine()
             print(izpis_igre(igra))
             print(izpis_poraza(igra))
             break
+
         elif stanje == model.ZMAGA:
             print(izpis_zmage(igra))
             break
