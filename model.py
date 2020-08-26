@@ -17,7 +17,6 @@ class Celica:
         self.mina = mina
         self.odkrita = odkrita
         self.z_zastavico = z_zastavico
-        #koordinate
         self.vrstica = vrstica
         self.stolpec = stolpec
 
@@ -38,8 +37,6 @@ class Polje:
             self.polja = []
         else:
             self.polja = polja
-        #polja bodo seznam seznamov po vrsticah
-        #super().__init__()
 
         #celica = self.polja[vrstica][stolpec]
 
@@ -78,18 +75,6 @@ class Polje:
         else:
             return False
 
-
-    #mogoče gre to raje v tekstovni vmesnik
-    #def je_mina(self, x0, y0):
-    #    self[x0][y0].je_mina()
-    ##ta tudi
-    #def postavi_zastavico(self, x0, y0):
-    #    if not self[x0][y0].odkrita:
-    #        self[x0][y0].postavi_zastavico()
-    #    else:
-    #        print("Celica je že vidna. Zastavice ne moreš postaviti.")
-
-
     def postavi_zastavico(self, vrstica, stolpec):
         celica = self.polja[vrstica][stolpec]
         if not celica.odkrita:
@@ -97,7 +82,6 @@ class Polje:
         else:
             return
 
-    #se treba dodat, da prvi klik ni mina, ampka prazno polje
     def odkrij_celico(self, vrstica, stolpec):
         celica = self.polja[vrstica][stolpec]
         if not celica.odkrita:
@@ -106,15 +90,6 @@ class Polje:
             if self.st_min_v_okolici(vrstica, stolpec) == 0:
                 for [i, j] in self.sosedi_celice(vrstica, stolpec):
                     self.odkrij_celico(i, j)
-
-
-    #brezvezna fuja
-    def polje_brez_min(self, x0, y0):
-        st = st_min_v_okolici(self, x0, y0, mine)
-        if st == 0:
-            return True
-        else:
-            return False
 
     #ko odkriješ vsa polja, kjer ni min
     def zmaga(self):
@@ -137,12 +112,6 @@ class Polje:
     #spremeni stanje igre glede na uporabnikovo ugibanje
     def ugibaj(self, vr, st, zastavica):
         #zastavica je true ali false
-        #kaj se zgodi če vnešeni podatki niso ustrezni
-        #if not vrstica.isdigit() or not stolpec.isdigit():
-        #    return NAPAKA
-        #
-        #vr = int(vrstica)
-        #st = int(stolpec)
         if not self.legalna_celica(vr, st):
             return NAPAKA
 
@@ -297,7 +266,5 @@ class Minolovec:
 
     def ugibaj(self, id_igre, vrstica, stolpec, zastavica):
         [igra, velikost_polja, st_min, stanje] = self.igre[id_igre]
-        #igra = self.igre[id_igre][0]
         novo_stanje = igra.ugibaj(vrstica, stolpec, zastavica)
-        #self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]
-        self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]#drugace ne ve kaj je velikost polja
+        self.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]

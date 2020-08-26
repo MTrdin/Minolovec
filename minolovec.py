@@ -5,7 +5,6 @@ SECRET = "Ena skrivnost"
 
 minolovec = model.Minolovec()
 
-#ali def index()
 @bottle.get("/")
 def zacetna_stran():
     return bottle.template("zacetna_stran.html")
@@ -26,12 +25,14 @@ def nova_igra():
         velikost_polja = 19
         st_min = 98
 
+    elif tezavnost == None:
+        return bottle.template("zacetna_stran.html")
+
     #na koncu igre da te preusmiri na zacetno stran
     elif tezavnost == "hocem_novo_igro":
         return bottle.template("zacetna_stran.html")
 
     else:
-        #pogledas ce je vnos pravi
         if veljaven_vnos_zacetek(tezavnost):
             podatki = tezavnost.split(" ")
             velikost_polja = int(podatki[0])
@@ -64,20 +65,15 @@ def veljaven_vnos_zacetek(tezavnost):
 def pokazi_igro():
     id_igre = bottle.request.get_cookie("id_igre", secret=SECRET)
     [igra, velikost_polja, st_min, stanje] = minolovec.igre[id_igre]
-    # igra = Polje()
     return bottle.template("igra.html", igra=igra, stanje=stanje, id_igre=id_igre, ZMAGA=model.ZMAGA, PORAZ=model.PORAZ, st_min=st_min, velikost_polja=velikost_polja)
 
-#ni se v redu
 @bottle.post("/igra/")
 def ugibaj():
     id_igre = bottle.request.get_cookie("id_igre", secret=SECRET)
     poskus = bottle.request.forms.getunicode("poskus")
     #podatke poslane prek POST preberes iz request.forms iz igra.html
-    #dobit moram vr, st, zastavico
-    #najprej pogledat ce je veljaven vnos
     if not veljaven_vnos(id_igre, poskus):
-        novo_stanje = model.NAPAKA #mogoce to ne bo delal ker je post?
-        #najbrs morm se preusmert?
+        novo_stanje = model.NAPAKA
         [igra, velikost_polja, st_min, stanje] = minolovec.igre[id_igre]
         minolovec.igre[id_igre] = [igra, velikost_polja, st_min, novo_stanje]
         bottle.redirect('/igra/')
@@ -95,6 +91,7 @@ def veljaven_vnos(id_igre, poskus):
     vnseseni_podatki = poskus.split(" ")
     st = len(vnseseni_podatki)
     moja_igra = minolovec.igre[id_igre][0]
+
     if st == 2:
         prvi = vnseseni_podatki[0]
         drugi = vnseseni_podatki[1]
